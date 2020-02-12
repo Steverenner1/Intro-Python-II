@@ -4,21 +4,41 @@ from player import Player
 
 room = {
     'outside':  Room("Outside Cave Entrance",
-                     "North of you, the cave mount beckons"),
+                     "North of you, the cave mount beckons",
+                     None,
+                     None,
+                     None,
+                     None),
 
     'foyer':    Room("Foyer", """Dim light filters in from the south. Dusty
-passages run north and east."""),
+passages run north and east.""",
+                     None,
+                     None,
+                     None,
+                     None),
 
     'overlook': Room("Grand Overlook", """A steep cliff appears before you, falling
 into the darkness. Ahead to the north, a light flickers in
-the distance, but there is no way across the chasm."""),
+the distance, but there is no way across the chasm.""",
+                     None,
+                     None,
+                     None,
+                     None),
 
     'narrow':   Room("Narrow Passage", """The narrow passage bends here from west
-to north. The smell of gold permeates the air."""),
+to north. The smell of gold permeates the air.""",
+                     None,
+                     None,
+                     None,
+                     None),
 
     'treasure': Room("Treasure Chamber", """You've found the long-lost treasure
 chamber! Sadly, it has already been completely emptied by
-earlier adventurers. The only exit is to the south."""),
+earlier adventurers. The only exit is to the south.""",
+                     None,
+                     None,
+                     None,
+                     None),
 }
 
 
@@ -38,7 +58,7 @@ room['treasure'].s_to = room['narrow']
 #
 
 # Make a new player object that is currently in the 'outside' room.
-# player = Player("Steve", room ['outside'])
+
 # Write a loop that:
 #
 # * Prints the current room name
@@ -49,12 +69,9 @@ room['treasure'].s_to = room['narrow']
 # Print an error message if the movement isn't allowed.
 #
 # If the user enters "q", quit the game.
-# user = str(input("[n] North  [s] South  [e] East  [w] West  [q] Quit\n"))
 
-# while Game:
-#     current_room = player.current_room
-#     print(f"You are in {current_room.name}")
-#     print(f""" {current_room.description} """)
+
+player = Player("Steve", room ['outside'])
 
 def show_welcome_message():
     welcome_message = "Welcome to the game!"
@@ -72,5 +89,35 @@ choice_options = {
     "q": "quit"
 }
 
+
 show_welcome_message()
+
+while True:
+    current_room = player.current_room
+    print(f"You are currently in {current_room.name}")
+    print(f"{current_room.description}")
+    move = input("Select N, S, E, or W >>> ")
+    if move == "n":
+        if current_room.n_to is not None:
+            player.current_room = current_room.n_to
+        else:
+            print("You hit a dead end!  Try again.")
+    elif move == "s":
+        if current_room.s_to is not None:
+            player.current_room = current_room.s_to
+        else:
+            print("You hit a dead end!  Try again.")
+    elif move == "e":
+        if current_room.e_to is not None:
+            player.current_room = current_room.e_to
+        else:
+            print("You hit a dead end!  Try again.")
+    elif move == "w":
+        if current_room.w_to is not None:
+            player.current_room = current_room.w_to
+        else:
+            print("You hit a dead end!  Try again.")
+    elif move == "q":
+        print("Game has quit")
+        exit()
    
