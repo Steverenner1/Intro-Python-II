@@ -1,6 +1,15 @@
 from room import Room
 from player import Player
+from item import Item
 # Declare all the rooms
+
+
+item = [
+    Item('Badass Sword of Unity'),
+    Item('Killer Mace of FU up'),
+    Item('Strong Shield of Shieldiness'),
+    Item('Potion of Healing')
+]
 
 room = {
     'outside':  Room("Outside Cave Entrance",
@@ -8,14 +17,23 @@ room = {
                      None,
                      None,
                      None,
-                     None),
+                     None,
+
+                     [
+                       item[0],
+                       item[1] 
+                     ]),
 
     'foyer':    Room("Foyer", """Dim light filters in from the south. Dusty
 passages run north and east.""",
                      None,
                      None,
                      None,
-                     None),
+                     None,
+                     [
+                         item[0],
+                         item[3]
+                     ]),
 
     'overlook': Room("Grand Overlook", """A steep cliff appears before you, falling
 into the darkness. Ahead to the north, a light flickers in
@@ -23,14 +41,22 @@ the distance, but there is no way across the chasm.""",
                      None,
                      None,
                      None,
-                     None),
+                     None,
+                     [
+                         item[1],
+                         item[3]
+                     ]),
 
     'narrow':   Room("Narrow Passage", """The narrow passage bends here from west
 to north. The smell of gold permeates the air.""",
                      None,
                      None,
                      None,
-                     None),
+                     None,
+                     [
+                         item[2],
+                         item[3]
+                     ]),
 
     'treasure': Room("Treasure Chamber", """You've found the long-lost treasure
 chamber! Sadly, it has already been completely emptied by
@@ -38,8 +64,13 @@ earlier adventurers. The only exit is to the south.""",
                      None,
                      None,
                      None,
-                     None),
+                     None,
+                     [
+                         item[0],
+                         item[3]
+                     ]),
 }
+
 
 
 # Link rooms together
@@ -100,21 +131,26 @@ while True:
     if move == "n":
         if current_room.n_to is not None:
             player.current_room = current_room.n_to
+            print(f"You picked up {current_room.items[0]}")
+            print(f"You picked up {current_room.items[1]}")
         else:
             print("You hit a dead end!  Try again.")
     elif move == "s":
         if current_room.s_to is not None:
             player.current_room = current_room.s_to
+            print(f"You picked up {current_room.items}")
         else:
             print("You hit a dead end!  Try again.")
     elif move == "e":
         if current_room.e_to is not None:
             player.current_room = current_room.e_to
+            print(f"You picked up {current_room.items}")
         else:
             print("You hit a dead end!  Try again.")
     elif move == "w":
         if current_room.w_to is not None:
             player.current_room = current_room.w_to
+            print(f"You picked up {current_room.items}")
         else:
             print("You hit a dead end!  Try again.")
     elif move == "q":
