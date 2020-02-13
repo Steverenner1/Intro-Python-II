@@ -5,10 +5,10 @@ from item import Item
 
 
 item = [
-    Item('Badass Sword of Unity'),
-    Item('Killer Mace of FU up'),
-    Item('Strong Shield of Shieldiness'),
-    Item('Potion of Healing')
+    Item("Badass Sword of Unity", "the sword from age old kings that has been buried deep in the earth for centuries"),
+    Item('Killer Mace of FU up', "your opponents don't want any of this"),
+    Item("Strong Shield of Shieldiness", "this shield will protect you from even the sharpest arrows"),
+    Item("Potion of Healing", "this will make you feel better")
 ]
 
 room = {
@@ -102,7 +102,7 @@ room['treasure'].s_to = room['narrow']
 # If the user enters "q", quit the game.
 
 
-player = Player("Steve", room ['outside'])
+player = Player("Steve", room ['outside'], [item[0]])
 
 def show_welcome_message():
     welcome_message = "Welcome to the game!"
@@ -117,7 +117,11 @@ choice_options = {
     "s": "south",
     "e": "east",
     "w": "west",
-    "q": "quit"
+    "q": "quit",
+    "get": "get item",
+    "drop": "drop item",
+    "i": "inventory",
+    "inventory": "inventory"
 }
 
 
@@ -125,35 +129,62 @@ show_welcome_message()
 
 while True:
     current_room = player.current_room
-    print(f"You are currently in {current_room.name}")
+    print(f"You are currently in {current_room.name}\n")
     print(f"{current_room.description}")
     move = input("Select N, S, E, or W >>> ")
     if move == "n":
         if current_room.n_to is not None:
             player.current_room = current_room.n_to
-            print(f"You picked up {current_room.items[0]}")
-            print(f"You picked up {current_room.items[1]}")
         else:
-            print("You hit a dead end!  Try again.")
+            print("You hit a dead end!  Try again.\n")
     elif move == "s":
         if current_room.s_to is not None:
             player.current_room = current_room.s_to
-            print(f"You picked up {current_room.items}")
         else:
-            print("You hit a dead end!  Try again.")
+            print("You hit a dead end!  Try again.\n")
     elif move == "e":
         if current_room.e_to is not None:
             player.current_room = current_room.e_to
-            print(f"You picked up {current_room.items}")
         else:
-            print("You hit a dead end!  Try again.")
+            print("You hit a dead end!  Try again.\n")
     elif move == "w":
         if current_room.w_to is not None:
             player.current_room = current_room.w_to
-            print(f"You picked up {current_room.items}")
         else:
-            print("You hit a dead end!  Try again.")
+            print("You hit a dead end!  Try again.\n")
+
+    elif "get" in move:
+        item = move[4:]
+
+        for x in range(len(current_room.items)):
+            if item == current_room.items[x].item_name:
+                player.inventory.append(current_room.items[x])
+                print(f"you picked up {current_room.items[x]}")
+                del current_room.items[x]
+                break
+            else:
+                print("There are no items in the room")
+
+    elif "drop" in move:
+        item = move[5:]
+
+        for x in range(len(player.inventory)):
+            if item == player.inventory[x].item_name:
+                current_room.items.append(player.inventory[x])
+                print(f"you dropped {player.inventory[x]}")
+                del player.inventory[x]
+                break
+            else:
+                print("You don't have any items to drop")
+
+    elif move == "i" or move == "inventory":
+        for x in range(len(player.inventory)):
+            print(player.inventory[x])
+
+    # elif move == "search":
+    #     current_room.item_name
+
     elif move == "q":
-        print("Game has quit")
+        print("Game has quit\n")
         exit()
    
