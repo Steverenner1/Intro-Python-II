@@ -14,10 +14,6 @@ item = [
 room = {
     'outside':  Room("Outside Cave Entrance",
                      "North of you, the cave mount beckons",
-                     None,
-                     None,
-                     None,
-                     None,
 
                      [
                        item[0],
@@ -26,10 +22,7 @@ room = {
 
     'foyer':    Room("Foyer", """Dim light filters in from the south. Dusty
 passages run north and east.""",
-                     None,
-                     None,
-                     None,
-                     None,
+                
                      [
                          item[0],
                          item[3]
@@ -38,10 +31,7 @@ passages run north and east.""",
     'overlook': Room("Grand Overlook", """A steep cliff appears before you, falling
 into the darkness. Ahead to the north, a light flickers in
 the distance, but there is no way across the chasm.""",
-                     None,
-                     None,
-                     None,
-                     None,
+                     
                      [
                          item[1],
                          item[3]
@@ -49,10 +39,7 @@ the distance, but there is no way across the chasm.""",
 
     'narrow':   Room("Narrow Passage", """The narrow passage bends here from west
 to north. The smell of gold permeates the air.""",
-                     None,
-                     None,
-                     None,
-                     None,
+                     
                      [
                          item[2],
                          item[3]
@@ -61,10 +48,7 @@ to north. The smell of gold permeates the air.""",
     'treasure': Room("Treasure Chamber", """You've found the long-lost treasure
 chamber! Sadly, it has already been completely emptied by
 earlier adventurers. The only exit is to the south.""",
-                     None,
-                     None,
-                     None,
-                     None,
+                     
                      [
                          item[0],
                          item[3]
@@ -127,31 +111,16 @@ choice_options = {
 
 show_welcome_message()
 
+print(player.current_room)
 while True:
     current_room = player.current_room
-    print(f"You are currently in {current_room.name}\n")
-    print(f"{current_room.description}")
-    move = input("Select N, S, E, or W >>> ")
-    if move == "n":
-        if current_room.n_to is not None:
-            player.current_room = current_room.n_to
-        else:
-            print("You hit a dead end!  Try again.\n")
-    elif move == "s":
-        if current_room.s_to is not None:
-            player.current_room = current_room.s_to
-        else:
-            print("You hit a dead end!  Try again.\n")
-    elif move == "e":
-        if current_room.e_to is not None:
-            player.current_room = current_room.e_to
-        else:
-            print("You hit a dead end!  Try again.\n")
-    elif move == "w":
-        if current_room.w_to is not None:
-            player.current_room = current_room.w_to
-        else:
-            print("You hit a dead end!  Try again.\n")
+    # print(f"You are currently in {current_room.name}\n")
+    # print(f"{current_room.description}")
+    move = input("Select N, S, E, W or Search, Get, Drop >>> ")
+    
+    if move in ["n", "s", "e", "w"]:
+        player.travel(move)
+    
 
     elif "get" in move:
         item = move[4:]
@@ -177,14 +146,18 @@ while True:
             else:
                 print("You don't have any items to drop")
 
+    elif move == "search":
+        for x in range(len(current_room.items)):
+            print(f"\nYou search the room and find:\n{current_room.items[x]}")
+    
     elif move == "i" or move == "inventory":
         for x in range(len(player.inventory)):
-            print(player.inventory[x])
-
-    # elif move == "search":
-    #     current_room.item_name
+            print(f"Your inventory is: {player.inventory[x]}")
 
     elif move == "q":
         print("Game has quit\n")
         exit()
+    
+    else:
+        print("Invalid command")
    

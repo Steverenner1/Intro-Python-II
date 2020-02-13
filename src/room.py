@@ -2,11 +2,18 @@
 # description attributes.
 
 class Room:
-    def __init__(self, name, description, items, n_to = None, s_to = None, e_to = None, w_to = None):
+    def __init__(self, name, description, items, search = None):
         self.name = name
         self.description = description
-        self.n_to = n_to
-        self.s_to = s_to
-        self.e_to = e_to
-        self.w_to = w_to
         self.items = items
+        self.n_to = None
+        self.s_to = None
+        self.e_to = None
+        self.w_to = None
+        self.search = search
+    
+    def __str__(self):
+        '''
+        This is a string method
+        '''
+        return f"\nYou are currently in {self.name}\n\n{self.description}"
